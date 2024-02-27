@@ -20,6 +20,7 @@ use Knuckles\Scribe\Tools\ConsoleOutputUtils as c;
 use Knuckles\Scribe\Tools\ErrorHandlingUtils as e;
 use Knuckles\Scribe\Tools\Globals;
 use Knuckles\Scribe\Tools\Utils;
+use Knuckles\Scribe\Extracting\Extractor;
 
 /**
  * Make a call to the route and retrieve its response.
@@ -46,6 +47,7 @@ class ResponseCalls extends Strategy
 
     public function makeResponseCall(ExtractedEndpointData $endpointData, array $settings): ?array
     {
+        $settings = array_merge($settings, Extractor::transformOldRouteRulesIntoNewSettings('responses', $settings, ResponseCalls::class));
         $this->configureEnvironment($settings);
 
         // Mix in parsed parameters with manually specified parameters.
